@@ -22,7 +22,7 @@ import {
 import { Input } from "@/components/ui/input";
 import { Switch } from "@/components/ui/switch";
 import { Plus } from "lucide-react";
-import { useForm } from "react-hook-form";
+import { useForm, type Resolver } from "react-hook-form";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import type { UserFormValues } from "../types";
@@ -53,7 +53,7 @@ export function UserFormDialog({ onAddUser }: UserFormDialogProps) {
   const [open, setOpen] = useState(false);
 
   const form = useForm<FormValues>({
-    resolver: zodResolver(userFormSchema),
+    resolver: zodResolver(userFormSchema) as Resolver<FormValues>,
     defaultValues: {
       username: "",
       full_name: "",
