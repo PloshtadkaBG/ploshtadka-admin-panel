@@ -2,17 +2,17 @@ import { lazy } from "react";
 import { Navigate } from "react-router-dom";
 
 // Lazy load components for better performance
-const Landing = lazy(() => import("@/app/landing/page"));
+// const Landing = lazy(() => import("@/app/landing/page"));
 const Dashboard = lazy(() => import("@/app/dashboard/page"));
-const Dashboard2 = lazy(() => import("@/app/dashboard-2/page"));
-const Mail = lazy(() => import("@/app/mail/page"));
-const Tasks = lazy(() => import("@/app/tasks/page"));
-const Chat = lazy(() => import("@/app/chat/page"));
-const Calendar = lazy(() => import("@/app/calendar/page"));
+// const Dashboard2 = lazy(() => import("@/app/dashboard-2/page"));
+// const Mail = lazy(() => import("@/app/mail/page"));
+// const Tasks = lazy(() => import("@/app/tasks/page"));
+// const Chat = lazy(() => import("@/app/chat/page"));
+// const Calendar = lazy(() => import("@/app/calendar/page"));
 const Users = lazy(() => import("@/app/users/page"));
 const Venues = lazy(() => import("@/app/venues/page"));
-const FAQs = lazy(() => import("@/app/faqs/page"));
-const Pricing = lazy(() => import("@/app/pricing/page"));
+// const FAQs = lazy(() => import("@/app/faqs/page"));
+// const Pricing = lazy(() => import("@/app/pricing/page"));
 
 // Auth pages
 const SignIn = lazy(() => import("@/app/auth/sign-in/page"));
@@ -30,21 +30,22 @@ const UnderMaintenance = lazy(
 );
 
 // Settings pages
-const UserSettings = lazy(() => import("@/app/settings/user/page"));
+// const UserSettings = lazy(() => import("@/app/settings/user/page"));
 const AccountSettings = lazy(() => import("@/app/settings/account/page"));
-const BillingSettings = lazy(() => import("@/app/settings/billing/page"));
-const AppearanceSettings = lazy(() => import("@/app/settings/appearance/page"));
+// const BillingSettings = lazy(() => import("@/app/settings/billing/page"));
+// const AppearanceSettings = lazy(() => import("@/app/settings/appearance/page"));
 const NotificationSettings = lazy(
   () => import("@/app/settings/notifications/page"),
 );
-const ConnectionSettings = lazy(
-  () => import("@/app/settings/connections/page"),
-);
+// const ConnectionSettings = lazy(
+// () => import("@/app/settings/connections/page"),
+// );
 
 export interface RouteConfig {
   path: string;
   element: React.ReactNode;
   children?: RouteConfig[];
+  isPublic?: boolean;
 }
 
 export const routes: RouteConfig[] = [
@@ -56,39 +57,39 @@ export const routes: RouteConfig[] = [
   },
 
   // Landing Page
-  {
-    path: "/landing",
-    element: <Landing />,
-  },
+  // {
+  //   path: "/landing",
+  //   element: <Landing />,
+  // },
 
   // Dashboard Routes
   {
     path: "/dashboard",
     element: <Dashboard />,
   },
-  {
-    path: "/dashboard-2",
-    element: <Dashboard2 />,
-  },
-
-  // Application Routes
-  {
-    path: "/mail",
-    element: <Mail />,
-  },
-  {
-    path: "/tasks",
-    element: <Tasks />,
-  },
-  {
-    path: "/chat",
-    element: <Chat />,
-  },
-  {
-    path: "/calendar",
-    element: <Calendar />,
-  },
-
+  // {
+  //   path: "/dashboard-2",
+  //   element: <Dashboard2 />,
+  // },
+  //
+  // // Application Routes
+  // {
+  //   path: "/mail",
+  //   element: <Mail />,
+  // },
+  // {
+  //   path: "/tasks",
+  //   element: <Tasks />,
+  // },
+  // {
+  //   path: "/chat",
+  //   element: <Chat />,
+  // },
+  // {
+  //   path: "/calendar",
+  //   element: <Calendar />,
+  // },
+  //
   // Content Pages
   {
     path: "/users",
@@ -98,23 +99,25 @@ export const routes: RouteConfig[] = [
     path: "/venues",
     element: <Venues />,
   },
-  {
-    path: "/faqs",
-    element: <FAQs />,
-  },
-  {
-    path: "/pricing",
-    element: <Pricing />,
-  },
+  // {
+  //   path: "/faqs",
+  //   element: <FAQs />,
+  // },
+  // {
+  //   path: "/pricing",
+  //   element: <Pricing />,
+  // },
 
   // Authentication Routes
   {
     path: "/auth/sign-in",
     element: <SignIn />,
+    isPublic: true,
   },
   {
     path: "/auth/forgot-password",
     element: <ForgotPassword />,
+    isPublic: true,
   },
 
   // Error Pages
@@ -140,30 +143,30 @@ export const routes: RouteConfig[] = [
   },
 
   // Settings Routes
-  {
-    path: "/settings/user",
-    element: <UserSettings />,
-  },
+  // {
+  //   path: "/settings/user",
+  //   element: <UserSettings />,
+  // },
   {
     path: "/settings/account",
     element: <AccountSettings />,
   },
-  {
-    path: "/settings/billing",
-    element: <BillingSettings />,
-  },
-  {
-    path: "/settings/appearance",
-    element: <AppearanceSettings />,
-  },
+  // {
+  //   path: "/settings/billing",
+  //   element: <BillingSettings />,
+  // },
+  // {
+  //   path: "/settings/appearance",
+  //   element: <AppearanceSettings />,
+  // },
   {
     path: "/settings/notifications",
     element: <NotificationSettings />,
   },
-  {
-    path: "/settings/connections",
-    element: <ConnectionSettings />,
-  },
+  // {
+  //   path: "/settings/connections",
+  //   element: <ConnectionSettings />,
+  // },
 
   // Catch-all route for 404
   {
