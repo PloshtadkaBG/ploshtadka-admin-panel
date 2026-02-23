@@ -6,12 +6,11 @@ import { StatCards } from "./components/stat-cards";
 import { DataTable } from "./components/data-table";
 import { VenueImagesDialog } from "./components/venue-images-dialog";
 import { VenueUnavailabilityDialog } from "./components/venue-unavailability-dialog";
-import { useVenues, useAddVenue, useDeleteVenue } from "./hooks";
+import { useVenues, useDeleteVenue } from "./hooks";
 import type { VenueListItem } from "./types";
 
 export default function VenuesPage() {
   const { data: venues = [], isLoading } = useVenues();
-  const { mutate: addVenue } = useAddVenue();
   const { mutate: deleteVenue } = useDeleteVenue();
 
   // Dialog states for direct access from page
@@ -32,7 +31,6 @@ export default function VenuesPage() {
           <DataTable
             venues={venues}
             loading={isLoading}
-            onAddVenue={addVenue}
             onDeleteVenue={deleteVenue}
           />
         </div>

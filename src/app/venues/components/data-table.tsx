@@ -64,14 +64,13 @@ import { VenueEditDialog } from "./venue-edit-dialog";
 import { VenueStatusDialog } from "./venue-status-dialog";
 import { VenueImagesDialog } from "./venue-images-dialog";
 import { VenueUnavailabilityDialog } from "./venue-unavailability-dialog";
-import type { VenueListItem, VenueFormValues, VenueStatus } from "../types";
+import type { VenueListItem, VenueStatus } from "../types";
 import { Eye, Pencil } from "lucide-react";
 
 interface DataTableProps {
   venues: VenueListItem[];
   loading: boolean;
   onDeleteVenue: (id: string) => void;
-  onAddVenue: (venueData: VenueFormValues) => void;
 }
 
 const statusColors: Record<VenueStatus, string> = {
@@ -94,12 +93,7 @@ const sportTypeIcons: Record<string, string> = {
   other: "🏃",
 };
 
-export function DataTable({
-  venues,
-  loading,
-  onDeleteVenue,
-  onAddVenue,
-}: DataTableProps) {
+export function DataTable({ venues, loading, onDeleteVenue }: DataTableProps) {
   const [sorting, setSorting] = useState<SortingState>([]);
   const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([]);
   const [columnVisibility, setColumnVisibility] = useState<VisibilityState>({});
@@ -455,7 +449,7 @@ export function DataTable({
             <Download className="mr-2 size-4" />
             Export
           </Button>
-          <VenueFormDialog onAddVenue={onAddVenue} />
+          <VenueFormDialog />
         </div>
       </div>
 

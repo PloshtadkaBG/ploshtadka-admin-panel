@@ -46,13 +46,13 @@ const sportTypeOptions: SportType[] = [
 ];
 
 const DAYS = [
-  { key: "1", label: "Monday" },
-  { key: "2", label: "Tuesday" },
-  { key: "3", label: "Wednesday" },
-  { key: "4", label: "Thursday" },
-  { key: "5", label: "Friday" },
-  { key: "6", label: "Saturday" },
-  { key: "0", label: "Sunday" },
+  { key: "0", label: "Monday" },
+  { key: "1", label: "Tuesday" },
+  { key: "2", label: "Wednesday" },
+  { key: "3", label: "Thursday" },
+  { key: "4", label: "Friday" },
+  { key: "5", label: "Saturday" },
+  { key: "6", label: "Sunday" },
   { key: "default", label: "Default (fallback)" },
 ] as const;
 
@@ -305,11 +305,7 @@ function WorkingHoursRow({
 
 // ─── Main Component ───────────────────────────────────────────────────────────
 
-interface VenueFormDialogProps {
-  onAddVenue?: (venue: VenueFormValues) => void;
-}
-
-export function VenueFormDialog({ onAddVenue }: VenueFormDialogProps) {
+export function VenueFormDialog() {
   const [open, setOpen] = useState(false);
   const { mutate: createVenue, isPending } = useAddVenue();
 
@@ -366,7 +362,6 @@ export function VenueFormDialog({ onAddVenue }: VenueFormDialogProps) {
 
     createVenue(payload, {
       onSuccess: () => {
-        onAddVenue?.(payload);
         handleClose();
       },
     });
