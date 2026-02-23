@@ -21,8 +21,7 @@ import { UserDetailsDialog } from "@/app/users/components/user-details-dialog";
 const statusColors: Record<string, string> = {
   pending:
     "text-yellow-700 bg-yellow-50 dark:text-yellow-400 dark:bg-yellow-900/20",
-  confirmed:
-    "text-blue-700 bg-blue-50 dark:text-blue-400 dark:bg-blue-900/20",
+  confirmed: "text-blue-700 bg-blue-50 dark:text-blue-400 dark:bg-blue-900/20",
   completed:
     "text-green-700 bg-green-50 dark:text-green-400 dark:bg-green-900/20",
   cancelled: "text-red-700 bg-red-50 dark:text-red-400 dark:bg-red-900/20",
@@ -54,14 +53,16 @@ interface UserButtonProps {
 
 function UserButton({ id, username, fullName, onClick }: UserButtonProps) {
   if (!username) {
-    return <span className="font-mono text-xs text-muted-foreground">{id}</span>;
+    return (
+      <span className="font-mono text-xs text-muted-foreground">{id}</span>
+    );
   }
   return (
     <button
       onClick={onClick}
       className="text-blue-600 hover:underline dark:text-blue-400 cursor-pointer text-right"
     >
-      @{username}
+      {username}
       {fullName && (
         <span className="block text-xs text-muted-foreground">{fullName}</span>
       )}

@@ -144,7 +144,7 @@ export function DataTable({ bookings, loading }: DataTableProps) {
       cell: ({ row }) => {
         const username = row.original.customer_username;
         return username ? (
-          <span className="text-sm">@{username}</span>
+          <span className="text-sm">{username}</span>
         ) : (
           <span className="font-mono text-xs text-muted-foreground">
             {row.getValue<string>("user_id").slice(0, 8)}…
