@@ -8,8 +8,8 @@ export default function BookingsPage() {
 
   return (
     <BaseLayout
-      title="Bookings"
-      description="Manage and review bookings for your venues."
+      title="Резервации"
+      description="Управлявайте и преглеждайте резервациите за вашите обекти."
     >
       <div className="flex flex-col gap-6 px-4 lg:px-6">
         <StatCards bookings={bookings} loading={isLoading} />

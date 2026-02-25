@@ -16,7 +16,7 @@ import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { useUpdateBookingStatus } from "../hooks";
 import type { Booking, BookingStatus } from "../types";
 
-// Allowed transitions per status
+// Разрешени преходи според статуса
 const TRANSITIONS: Record<BookingStatus, BookingStatus[]> = {
   pending: ["confirmed", "cancelled"],
   confirmed: ["completed", "cancelled", "no_show"],
@@ -30,24 +30,24 @@ const STATUS_META: Record<
   { label: string; description: string }
 > = {
   pending: {
-    label: "Pending",
-    description: "Awaiting venue owner confirmation",
+    label: "Изчакваща",
+    description: "Очаква потвърждение от собственика на обекта",
   },
   confirmed: {
-    label: "Confirmed",
-    description: "Booking accepted by venue owner",
+    label: "Потвърдена",
+    description: "Резервацията е приета от собственика",
   },
   completed: {
-    label: "Completed",
-    description: "Booking period elapsed and fulfilled",
+    label: "Завършена",
+    description: "Периодът на резервацията е изтекъл и тя е изпълнена",
   },
   cancelled: {
-    label: "Cancelled",
-    description: "Booking was cancelled",
+    label: "Отказана",
+    description: "Резервацията е била анулирана",
   },
   no_show: {
-    label: "No-show",
-    description: "Customer did not show up",
+    label: "Неявяване",
+    description: "Клиентът не се е появил",
   },
 };
 
@@ -78,14 +78,17 @@ export function BookingStatusDialog({
   };
 
   return (
-    <Dialog open={!!booking && options.length > 0} onOpenChange={handleOpenChange}>
+    <Dialog
+      open={!!booking && options.length > 0}
+      onOpenChange={handleOpenChange}
+    >
       <DialogContent className="sm:max-w-md">
         <DialogHeader>
-          <DialogTitle>Update Booking Status</DialogTitle>
+          <DialogTitle>Актуализиране на статус</DialogTitle>
           <DialogDescription>
             {booking
-              ? `Current status: ${STATUS_META[booking.status].label}. Choose the new status.`
-              : "Choose the new booking status."}
+              ? `Текущ статус: ${STATUS_META[booking.status].label}. Изберете новия статус.`
+              : "Изберете нов статус за резервацията."}
           </DialogDescription>
         </DialogHeader>
 
@@ -101,15 +104,11 @@ export function BookingStatusDialog({
                 className="flex items-start space-x-3 rounded-lg border p-3 cursor-pointer hover:bg-muted/50 transition-colors"
                 onClick={() => setSelected(status)}
               >
-                <RadioGroupItem
-                  value={status}
-                  id={status}
-                  className="mt-1"
-                />
+                <RadioGroupItem value={status} id={status} className="mt-1" />
                 <div className="flex-1">
                   <Label
                     htmlFor={status}
-                    className="font-medium cursor-pointer capitalize"
+                    className="font-medium cursor-pointer"
                   >
                     {STATUS_META[status].label}
                   </Label>
@@ -128,7 +127,7 @@ export function BookingStatusDialog({
             onClick={() => handleOpenChange(false)}
             className="cursor-pointer"
           >
-            Cancel
+            Отказ
           </Button>
           <Button
             onClick={handleSave}
@@ -136,7 +135,7 @@ export function BookingStatusDialog({
             className="cursor-pointer"
           >
             {isPending && <Loader2 className="mr-2 size-4 animate-spin" />}
-            Update Status
+            Обнови статуса
           </Button>
         </DialogFooter>
       </DialogContent>

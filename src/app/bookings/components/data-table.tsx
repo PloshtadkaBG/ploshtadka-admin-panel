@@ -67,10 +67,18 @@ const statusColors: Record<BookingStatus, string> = {
     "text-orange-700 bg-orange-50 dark:text-orange-400 dark:bg-orange-900/20",
 };
 
+const statusLabels: Record<string, string> = {
+  pending: "изчакваща",
+  confirmed: "потвърдена",
+  completed: "завършена",
+  cancelled: "отказана",
+  no_show: "неявяване",
+};
+
 const TERMINAL: BookingStatus[] = ["completed", "cancelled", "no_show"];
 
 function fmt(dt: string) {
-  return new Date(dt).toLocaleString(undefined, {
+  return new Date(dt).toLocaleString("bg-BG", {
     month: "short",
     day: "numeric",
     hour: "2-digit",
@@ -107,7 +115,7 @@ export function DataTable({ bookings, loading }: DataTableProps) {
             onCheckedChange={(value) =>
               table.toggleAllPageRowsSelected(!!value)
             }
-            aria-label="Select all"
+            aria-label="Избери всички"
           />
         </div>
       ),
@@ -116,7 +124,7 @@ export function DataTable({ bookings, loading }: DataTableProps) {
           <Checkbox
             checked={row.getIsSelected()}
             onCheckedChange={(value) => row.toggleSelected(!!value)}
-            aria-label="Select row"
+            aria-label="Избери ред"
           />
         </div>
       ),
@@ -126,7 +134,7 @@ export function DataTable({ bookings, loading }: DataTableProps) {
     },
     {
       accessorKey: "venue_id",
-      header: "Venue",
+      header: "Обект",
       cell: ({ row }) => {
         const name = row.original.venue_name;
         return name ? (
@@ -140,7 +148,7 @@ export function DataTable({ bookings, loading }: DataTableProps) {
     },
     {
       accessorKey: "user_id",
-      header: "Customer",
+      header: "Клиент",
       cell: ({ row }) => {
         const username = row.original.customer_username;
         return username ? (
@@ -154,7 +162,7 @@ export function DataTable({ bookings, loading }: DataTableProps) {
     },
     {
       accessorKey: "start_datetime",
-      header: "Start",
+      header: "Начало",
       cell: ({ row }) => (
         <div className="flex items-center gap-1.5 text-sm">
           <Calendar className="size-3.5 text-muted-foreground" />
@@ -164,14 +172,14 @@ export function DataTable({ bookings, loading }: DataTableProps) {
     },
     {
       accessorKey: "end_datetime",
-      header: "End",
+      header: "Край",
       cell: ({ row }) => (
         <span className="text-sm">{fmt(row.getValue("end_datetime"))}</span>
       ),
     },
     {
       accessorKey: "total_price",
-      header: "Total",
+      header: "Сума",
       cell: ({ row }) => (
         <span className="font-medium">
           {row.getValue("total_price")} {row.original.currency}
@@ -180,7 +188,7 @@ export function DataTable({ bookings, loading }: DataTableProps) {
     },
     {
       accessorKey: "status",
-      header: "Status",
+      header: "Статус",
       cell: ({ row }) => {
         const status = row.getValue("status") as BookingStatus;
         return (
@@ -188,7 +196,7 @@ export function DataTable({ bookings, loading }: DataTableProps) {
             variant="secondary"
             className={`capitalize ${statusColors[status]}`}
           >
-            {status.replace("_", " ")}
+            {statusLabels[status] || status}
           </Badge>
         );
       },
@@ -199,7 +207,7 @@ export function DataTable({ bookings, loading }: DataTableProps) {
     },
     {
       id: "actions",
-      header: "Actions",
+      header: "Действия",
       cell: ({ row }) => {
         const booking = row.original;
         const isTerminal = TERMINAL.includes(booking.status);
@@ -209,22 +217,22 @@ export function DataTable({ bookings, loading }: DataTableProps) {
               variant="ghost"
               size="icon"
               className="h-8 w-8 cursor-pointer"
-              title="View details"
+              title="Виж детайли"
               onClick={() => setDetailsBooking(booking)}
             >
               <Eye className="size-4" />
-              <span className="sr-only">View details</span>
+              <span className="sr-only">Виж детайли</span>
             </Button>
             {!isTerminal && (
               <Button
                 variant="ghost"
                 size="icon"
                 className="h-8 w-8 cursor-pointer"
-                title="Change status"
+                title="Промени статус"
                 onClick={() => setStatusBooking(booking)}
               >
                 <Activity className="size-4" />
-                <span className="sr-only">Change status</span>
+                <span className="sr-only">Промени статус</span>
               </Button>
             )}
             <DropdownMenu>
@@ -235,7 +243,7 @@ export function DataTable({ bookings, loading }: DataTableProps) {
                   className="h-8 w-8 cursor-pointer"
                 >
                   <EllipsisVertical className="size-4" />
-                  <span className="sr-only">More actions</span>
+                  <span className="sr-only">Още действия</span>
                 </Button>
               </DropdownMenuTrigger>
               <DropdownMenuContent align="end">
@@ -244,7 +252,7 @@ export function DataTable({ bookings, loading }: DataTableProps) {
                   onClick={() => setDetailsBooking(booking)}
                 >
                   <Eye className="mr-2 size-4" />
-                  View Details
+                  Виж детайли
                 </DropdownMenuItem>
                 {!isTerminal && (
                   <DropdownMenuItem
@@ -252,7 +260,7 @@ export function DataTable({ bookings, loading }: DataTableProps) {
                     onClick={() => setStatusBooking(booking)}
                   >
                     <Activity className="mr-2 size-4" />
-                    Change Status
+                    Промени статус
                   </DropdownMenuItem>
                 )}
                 <DropdownMenuSeparator />
@@ -262,7 +270,7 @@ export function DataTable({ bookings, loading }: DataTableProps) {
                   onClick={() => deleteBooking(booking.id)}
                 >
                   <Trash2 className="mr-2 size-4" />
-                  Delete
+                  Изтрий
                 </DropdownMenuItem>
               </DropdownMenuContent>
             </DropdownMenu>
@@ -290,7 +298,6 @@ export function DataTable({ bookings, loading }: DataTableProps) {
 
   return (
     <div className="w-full space-y-4">
-      {/* Dialogs */}
       <BookingDetailsDialog
         booking={detailsBooking}
         onClose={() => setDetailsBooking(null)}
@@ -300,10 +307,10 @@ export function DataTable({ bookings, loading }: DataTableProps) {
         onClose={() => setStatusBooking(null)}
       />
 
-      {/* Filters */}
+      {/* Филтри */}
       <div className="grid gap-2 sm:grid-cols-3 sm:gap-4">
         <div className="space-y-2">
-          <Label className="text-sm font-medium">Status</Label>
+          <Label className="text-sm font-medium">Статус</Label>
           <Select
             value={statusFilter || "all"}
             onValueChange={(value) =>
@@ -311,15 +318,15 @@ export function DataTable({ bookings, loading }: DataTableProps) {
             }
           >
             <SelectTrigger className="cursor-pointer w-full">
-              <SelectValue placeholder="All Statuses" />
+              <SelectValue placeholder="Всички статуси" />
             </SelectTrigger>
             <SelectContent>
-              <SelectItem value="all">All Statuses</SelectItem>
-              <SelectItem value="pending">Pending</SelectItem>
-              <SelectItem value="confirmed">Confirmed</SelectItem>
-              <SelectItem value="completed">Completed</SelectItem>
-              <SelectItem value="cancelled">Cancelled</SelectItem>
-              <SelectItem value="no_show">No-show</SelectItem>
+              <SelectItem value="all">Всички статуси</SelectItem>
+              <SelectItem value="pending">Изчакващи</SelectItem>
+              <SelectItem value="confirmed">Потвърдени</SelectItem>
+              <SelectItem value="completed">Завършени</SelectItem>
+              <SelectItem value="cancelled">Отказани</SelectItem>
+              <SelectItem value="no_show">Неявяване</SelectItem>
             </SelectContent>
           </Select>
         </div>
@@ -328,29 +335,40 @@ export function DataTable({ bookings, loading }: DataTableProps) {
           <DropdownMenu>
             <DropdownMenuTrigger asChild>
               <Button variant="outline" className="cursor-pointer">
-                Columns <ChevronDown className="ml-2 size-4" />
+                Колони <ChevronDown className="ml-2 size-4" />
               </Button>
             </DropdownMenuTrigger>
             <DropdownMenuContent align="end">
               {table
                 .getAllColumns()
                 .filter((col) => col.getCanHide())
-                .map((col) => (
-                  <DropdownMenuCheckboxItem
-                    key={col.id}
-                    className="capitalize"
-                    checked={col.getIsVisible()}
-                    onCheckedChange={(value) => col.toggleVisibility(!!value)}
-                  >
-                    {col.id.replace("_", " ")}
-                  </DropdownMenuCheckboxItem>
-                ))}
+                .map((col) => {
+                  // Превод на имената на колоните в менюто за видимост
+                  const columnLabels: Record<string, string> = {
+                    venue_id: "Обект",
+                    user_id: "Клиент",
+                    start_datetime: "Начало",
+                    end_datetime: "Край",
+                    total_price: "Сума",
+                    status: "Статус",
+                  };
+                  return (
+                    <DropdownMenuCheckboxItem
+                      key={col.id}
+                      className="capitalize"
+                      checked={col.getIsVisible()}
+                      onCheckedChange={(value) => col.toggleVisibility(!!value)}
+                    >
+                      {columnLabels[col.id] || col.id}
+                    </DropdownMenuCheckboxItem>
+                  );
+                })}
             </DropdownMenuContent>
           </DropdownMenu>
         </div>
       </div>
 
-      {/* Table */}
+      {/* Таблица */}
       <div className="rounded-md border">
         <Table>
           <TableHeader>
@@ -401,7 +419,7 @@ export function DataTable({ bookings, loading }: DataTableProps) {
                   colSpan={columns.length}
                   className="h-24 text-center"
                 >
-                  No bookings found.
+                  Няма намерени резервации.
                 </TableCell>
               </TableRow>
             )}
@@ -409,10 +427,10 @@ export function DataTable({ bookings, loading }: DataTableProps) {
         </Table>
       </div>
 
-      {/* Pagination */}
+      {/* Странициране */}
       <div className="flex items-center justify-between space-x-2 py-4">
         <div className="flex items-center space-x-2">
-          <Label className="text-sm font-medium">Show</Label>
+          <Label className="text-sm font-medium text-nowrap">Покажи по</Label>
           <Select
             value={`${table.getState().pagination.pageSize}`}
             onValueChange={(value) => table.setPageSize(Number(value))}
@@ -430,14 +448,14 @@ export function DataTable({ bookings, loading }: DataTableProps) {
           </Select>
         </div>
         <div className="flex-1 text-sm text-muted-foreground hidden sm:block">
-          {table.getFilteredSelectedRowModel().rows.length} of{" "}
-          {table.getFilteredRowModel().rows.length} row(s) selected.
+          {table.getFilteredSelectedRowModel().rows.length} от{" "}
+          {table.getFilteredRowModel().rows.length} избрани реда.
         </div>
         <div className="flex items-center space-x-2">
           <p className="text-sm font-medium hidden sm:block">
-            Page{" "}
+            Страница{" "}
             <strong>
-              {table.getState().pagination.pageIndex + 1} of{" "}
+              {table.getState().pagination.pageIndex + 1} от{" "}
               {table.getPageCount()}
             </strong>
           </p>
@@ -448,7 +466,7 @@ export function DataTable({ bookings, loading }: DataTableProps) {
             disabled={!table.getCanPreviousPage()}
             className="cursor-pointer"
           >
-            Previous
+            Предишна
           </Button>
           <Button
             variant="outline"
@@ -457,7 +475,7 @@ export function DataTable({ bookings, loading }: DataTableProps) {
             disabled={!table.getCanNextPage()}
             className="cursor-pointer"
           >
-            Next
+            Следваща
           </Button>
         </div>
       </div>

@@ -29,6 +29,14 @@ const statusColors: Record<string, string> = {
     "text-orange-700 bg-orange-50 dark:text-orange-400 dark:bg-orange-900/20",
 };
 
+const statusLabels: Record<string, string> = {
+  pending: "изчакваща",
+  confirmed: "потвърдена",
+  completed: "завършена",
+  cancelled: "отказана",
+  no_show: "неявяване",
+};
+
 function DetailRow({
   label,
   value,
@@ -85,7 +93,7 @@ export function BookingDetailsDialog({
   if (!booking) return null;
 
   const fmt = (dt: string) =>
-    new Date(dt).toLocaleString(undefined, {
+    new Date(dt).toLocaleString("bg-BG", {
       year: "numeric",
       month: "short",
       day: "numeric",
@@ -103,9 +111,9 @@ export function BookingDetailsDialog({
       <Dialog open={!!booking} onOpenChange={(open) => !open && onClose()}>
         <DialogContent className="sm:max-w-lg max-h-[90vh]">
           <DialogHeader>
-            <DialogTitle>Booking Details</DialogTitle>
+            <DialogTitle>Детайли за резервацията</DialogTitle>
             <DialogDescription>
-              Full information about this booking.
+              Пълна информация за тази резервация.
             </DialogDescription>
           </DialogHeader>
 
@@ -116,32 +124,32 @@ export function BookingDetailsDialog({
                   variant="secondary"
                   className={`capitalize ${statusColors[booking.status]}`}
                 >
-                  {booking.status.replace("_", " ")}
+                  {statusLabels[booking.status] || booking.status}
                 </Badge>
               </div>
 
               <Separator />
 
               <div className="space-y-1">
-                <p className="text-sm font-medium">Schedule</p>
-                <DetailRow label="Start" value={fmt(booking.start_datetime)} />
-                <DetailRow label="End" value={fmt(booking.end_datetime)} />
+                <p className="text-sm font-medium">График</p>
+                <DetailRow label="Начало" value={fmt(booking.start_datetime)} />
+                <DetailRow label="Край" value={fmt(booking.end_datetime)} />
                 <DetailRow
-                  label="Duration"
-                  value={`${durationHours.toFixed(1)} h`}
+                  label="Продължителност"
+                  value={`${durationHours.toFixed(1)} ч.`}
                 />
               </div>
 
               <Separator />
 
               <div className="space-y-1">
-                <p className="text-sm font-medium">Pricing</p>
+                <p className="text-sm font-medium">Ценообразуване</p>
                 <DetailRow
-                  label="Rate"
-                  value={`${booking.price_per_hour} ${booking.currency}/h`}
+                  label="Тарифа"
+                  value={`${booking.price_per_hour} ${booking.currency}/ч.`}
                 />
                 <DetailRow
-                  label="Total"
+                  label="Общо"
                   value={
                     <span className="font-semibold">
                       {booking.total_price} {booking.currency}
@@ -155,7 +163,7 @@ export function BookingDetailsDialog({
               {booking.notes && (
                 <>
                   <div className="space-y-1">
-                    <p className="text-sm font-medium">Notes</p>
+                    <p className="text-sm font-medium">Бележки</p>
                     <p className="text-sm text-muted-foreground leading-relaxed">
                       {booking.notes}
                     </p>
@@ -165,15 +173,15 @@ export function BookingDetailsDialog({
               )}
 
               <div className="space-y-1">
-                <p className="text-sm font-medium">References</p>
+                <p className="text-sm font-medium">Справки</p>
                 <DetailRow
-                  label="Booking ID"
+                  label="ID на резервация"
                   value={
                     <span className="font-mono text-xs">{booking.id}</span>
                   }
                 />
                 <DetailRow
-                  label="Venue"
+                  label="Обект"
                   value={
                     <a
                       href={`http://localhost:3000/venues/${booking.venue_id}`}
@@ -194,7 +202,7 @@ export function BookingDetailsDialog({
                   }
                 />
                 <DetailRow
-                  label="Customer"
+                  label="Клиент"
                   value={
                     <UserButton
                       id={booking.user_id}
@@ -205,7 +213,7 @@ export function BookingDetailsDialog({
                   }
                 />
                 <DetailRow
-                  label="Owner"
+                  label="Собственик"
                   value={
                     <UserButton
                       id={booking.venue_owner_id}
@@ -216,7 +224,7 @@ export function BookingDetailsDialog({
                   }
                 />
                 <DetailRow
-                  label="Last updated"
+                  label="Последна промяна"
                   value={fmt(booking.updated_at)}
                 />
               </div>
@@ -229,7 +237,7 @@ export function BookingDetailsDialog({
               onClick={onClose}
               className="cursor-pointer"
             >
-              Close
+              Затвори
             </Button>
           </DialogFooter>
         </DialogContent>

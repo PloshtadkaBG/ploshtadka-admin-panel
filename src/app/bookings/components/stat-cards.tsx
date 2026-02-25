@@ -25,13 +25,13 @@ export function StatCards({ bookings, loading }: StatCardsProps) {
 
   const metrics = [
     {
-      title: "Total Bookings",
+      title: "Общо резервации",
       value: loading ? "…" : total,
       icon: CalendarCheck,
       badge: null,
     },
     {
-      title: "Pending",
+      title: "Чакащи",
       value: loading ? "…" : pending,
       icon: Clock,
       badge: total > 0 ? `${Math.round((pending / total) * 100)}%` : null,
@@ -39,7 +39,7 @@ export function StatCards({ bookings, loading }: StatCardsProps) {
         "border-yellow-200 bg-yellow-50 text-yellow-700 dark:border-yellow-800 dark:bg-yellow-950/20 dark:text-yellow-400",
     },
     {
-      title: "Confirmed",
+      title: "Потвърдени",
       value: loading ? "…" : confirmed,
       icon: CheckCircle2,
       badge: total > 0 ? `${Math.round((confirmed / total) * 100)}%` : null,
@@ -47,7 +47,7 @@ export function StatCards({ bookings, loading }: StatCardsProps) {
         "border-blue-200 bg-blue-50 text-blue-700 dark:border-blue-800 dark:bg-blue-950/20 dark:text-blue-400",
     },
     {
-      title: "Completed",
+      title: "Завършени",
       value: loading ? "…" : completed,
       icon: Trophy,
       badge: total > 0 ? `${Math.round((completed / total) * 100)}%` : null,
@@ -55,7 +55,7 @@ export function StatCards({ bookings, loading }: StatCardsProps) {
         "border-green-200 bg-green-50 text-green-700 dark:border-green-800 dark:bg-green-950/20 dark:text-green-400",
     },
     {
-      title: "Cancelled",
+      title: "Отказани",
       value: loading ? "…" : cancelled,
       icon: XCircle,
       badge: total > 0 ? `${Math.round((cancelled / total) * 100)}%` : null,
@@ -63,7 +63,7 @@ export function StatCards({ bookings, loading }: StatCardsProps) {
         "border-red-200 bg-red-50 text-red-700 dark:border-red-800 dark:bg-red-950/20 dark:text-red-400",
     },
     {
-      title: "No-show",
+      title: "Неявяване",
       value: loading ? "…" : noShow,
       icon: UserX,
       badge: total > 0 ? `${Math.round((noShow / total) * 100)}%` : null,
