@@ -46,11 +46,9 @@ export function ScopeEditorDialog({ user, onClose }: ScopeEditorProps) {
     <Dialog open={!!user} onOpenChange={(open) => !open && onClose()}>
       <DialogContent className="sm:max-w-md">
         <DialogHeader>
-          <DialogTitle>Manage Scopes</DialogTitle>
+          <DialogTitle>Управление на права</DialogTitle>
           <DialogDescription>
-            {user
-              ? `Assign permission scopes for ${user.full_name ?? user.username}.`
-              : ""}
+            {user ? `Задайте права за ${user.full_name ?? user.username}.` : ""}
           </DialogDescription>
         </DialogHeader>
 
@@ -58,11 +56,11 @@ export function ScopeEditorDialog({ user, onClose }: ScopeEditorProps) {
           {isLoading ? (
             <div className="flex items-center gap-2 text-muted-foreground text-sm py-4 justify-center">
               <Loader2 className="size-4 animate-spin" />
-              Loading scopes…
+              Зареждане на права…
             </div>
           ) : allScopes.length === 0 ? (
             <p className="text-muted-foreground text-sm text-center py-4">
-              No scopes available.
+              Няма налични права.
             </p>
           ) : (
             allScopes.map((scope) => (
@@ -86,7 +84,7 @@ export function ScopeEditorDialog({ user, onClose }: ScopeEditorProps) {
             onClick={onClose}
             className="cursor-pointer"
           >
-            Cancel
+            Отказ
           </Button>
           <Button
             onClick={handleSave}
@@ -94,7 +92,7 @@ export function ScopeEditorDialog({ user, onClose }: ScopeEditorProps) {
             className="cursor-pointer"
           >
             {isPending && <Loader2 className="mr-2 size-4 animate-spin" />}
-            Save Scopes
+            Запази права
           </Button>
         </DialogFooter>
       </DialogContent>

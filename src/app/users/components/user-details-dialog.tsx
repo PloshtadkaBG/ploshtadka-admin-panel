@@ -28,25 +28,23 @@ export function UserDetailsDialog({
     <Dialog open={!!user} onOpenChange={(open) => !open && onClose()}>
       <DialogContent className="sm:max-w-md">
         <DialogHeader>
-          <DialogTitle>User Details</DialogTitle>
-          <DialogDescription>
-            Full profile information for this account.
-          </DialogDescription>
+          <DialogTitle>Детайли за потребителя</DialogTitle>
+          <DialogDescription>Пълна информация за профила.</DialogDescription>
         </DialogHeader>
 
         {user && (
           <div className="space-y-4">
             <div className="grid grid-cols-2 gap-y-3 text-sm">
-              <span className="text-muted-foreground">Username</span>
+              <span className="text-muted-foreground">Потребителско име</span>
               <span className="font-medium">@{user.username}</span>
 
-              <span className="text-muted-foreground">Full Name</span>
+              <span className="text-muted-foreground">Пълно име</span>
               <span className="font-medium">{user.full_name ?? "—"}</span>
 
-              <span className="text-muted-foreground">Email</span>
+              <span className="text-muted-foreground">Имейл</span>
               <span className="font-medium">{user.email ?? "—"}</span>
 
-              <span className="text-muted-foreground">Status</span>
+              <span className="text-muted-foreground">Статус</span>
               <Badge
                 variant="secondary"
                 className={
@@ -55,10 +53,10 @@ export function UserDetailsDialog({
                     : "text-gray-600 bg-gray-50 dark:text-gray-400 dark:bg-gray-900/20 w-fit"
                 }
               >
-                {user.is_active ? "Active" : "Inactive"}
+                {user.is_active ? "Активен" : "Неактивен"}
               </Badge>
 
-              <span className="text-muted-foreground">Joined</span>
+              <span className="text-muted-foreground">Регистриран</span>
               <span className="font-medium">
                 {new Date(user.created_at).toLocaleDateString()}
               </span>
@@ -72,7 +70,7 @@ export function UserDetailsDialog({
             <Separator />
 
             <div className="space-y-2">
-              <p className="text-sm text-muted-foreground">Scopes</p>
+              <p className="text-sm text-muted-foreground">Права</p>
               {user.scopes && (user.scopes as string[]).length > 0 ? (
                 <div className="flex flex-wrap gap-1">
                   {(user.scopes as string[]).map((s) => (
@@ -87,7 +85,7 @@ export function UserDetailsDialog({
                 </div>
               ) : (
                 <p className="text-sm text-muted-foreground">
-                  No scopes assigned.
+                  Няма присвоени права.
                 </p>
               )}
             </div>
@@ -100,7 +98,7 @@ export function UserDetailsDialog({
             onClick={onClose}
             className="cursor-pointer"
           >
-            Close
+            Затвори
           </Button>
           <Button
             onClick={() => {
@@ -111,7 +109,7 @@ export function UserDetailsDialog({
             }}
             className="cursor-pointer"
           >
-            Edit User
+            Редактирай потребител
           </Button>
         </DialogFooter>
       </DialogContent>

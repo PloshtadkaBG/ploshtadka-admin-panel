@@ -30,16 +30,16 @@ import type { UserFormValues } from "../types";
 const userFormSchema = z.object({
   username: z
     .string()
-    .min(2, { message: "Username must be at least 2 characters." }),
+    .min(2, { message: "Потребителското име трябва да е поне 2 символа." }),
   full_name: z.string().optional().default(""),
   email: z
-    .email({ message: "Please enter a valid email address." })
+    .email({ message: "Моля, въведете валиден имейл адрес." })
     .or(z.literal(""))
     .optional()
     .default(""),
   password: z
     .string()
-    .min(6, { message: "Password must be at least 6 characters." }),
+    .min(6, { message: "Паролата трябва да е поне 6 символа." }),
   is_active: z.boolean().default(true),
 });
 
@@ -80,14 +80,15 @@ export function UserFormDialog({ onAddUser }: UserFormDialogProps) {
       <DialogTrigger asChild>
         <Button className="cursor-pointer">
           <Plus className="mr-2 h-4 w-4" />
-          Add New User
+          Добави потребител
         </Button>
       </DialogTrigger>
       <DialogContent className="sm:max-w-lg">
         <DialogHeader>
-          <DialogTitle>Add New User</DialogTitle>
+          <DialogTitle>Добави потребител</DialogTitle>
           <DialogDescription>
-            Create a new user account. Click save when you're done.
+            Създайте нов потребителски акаунт. Натиснете запази, когато сте
+            готови.
           </DialogDescription>
         </DialogHeader>
         <Form {...form}>
@@ -97,7 +98,7 @@ export function UserFormDialog({ onAddUser }: UserFormDialogProps) {
               name="username"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Username</FormLabel>
+                  <FormLabel>Потребителско име</FormLabel>
                   <FormControl>
                     <Input placeholder="johndoe" {...field} />
                   </FormControl>
@@ -110,7 +111,7 @@ export function UserFormDialog({ onAddUser }: UserFormDialogProps) {
               name="full_name"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Full Name</FormLabel>
+                  <FormLabel>Пълно име</FormLabel>
                   <FormControl>
                     <Input placeholder="John Doe" {...field} />
                   </FormControl>
@@ -123,7 +124,7 @@ export function UserFormDialog({ onAddUser }: UserFormDialogProps) {
               name="email"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Email</FormLabel>
+                  <FormLabel>Имейл</FormLabel>
                   <FormControl>
                     <Input placeholder="john@example.com" {...field} />
                   </FormControl>
@@ -136,7 +137,7 @@ export function UserFormDialog({ onAddUser }: UserFormDialogProps) {
               name="password"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Password</FormLabel>
+                  <FormLabel>Парола</FormLabel>
                   <FormControl>
                     <Input type="password" placeholder="••••••" {...field} />
                   </FormControl>
@@ -149,7 +150,7 @@ export function UserFormDialog({ onAddUser }: UserFormDialogProps) {
               name="is_active"
               render={({ field }) => (
                 <FormItem className="flex items-center justify-between rounded-lg border p-3">
-                  <FormLabel className="cursor-pointer">Active</FormLabel>
+                  <FormLabel className="cursor-pointer">Активен</FormLabel>
                   <FormControl>
                     <Switch
                       checked={field.value}
@@ -161,7 +162,7 @@ export function UserFormDialog({ onAddUser }: UserFormDialogProps) {
             />
             <DialogFooter>
               <Button type="submit" className="cursor-pointer">
-                Save User
+                Запази потребител
               </Button>
             </DialogFooter>
           </form>

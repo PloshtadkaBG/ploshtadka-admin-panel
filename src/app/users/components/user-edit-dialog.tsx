@@ -28,16 +28,16 @@ import type { User } from "../types";
 const editFormSchema = z.object({
   username: z
     .string()
-    .min(2, { message: "Username must be at least 2 characters." })
+    .min(2, { message: "Потребителското име трябва да е поне 2 символа." })
     .optional(),
   full_name: z.string().optional(),
   email: z
-    .email({ message: "Please enter a valid email address." })
+    .email({ message: "Моля, въведете валиден имейл адрес." })
     .or(z.literal(""))
     .optional(),
   password: z
     .string()
-    .min(6, { message: "Password must be at least 6 characters." })
+    .min(6, { message: "Паролата трябва да е поне 6 символа." })
     .optional()
     .or(z.literal("")),
   is_active: z.boolean().optional(),
@@ -95,9 +95,10 @@ export function UserEditDialog({ user, onClose }: UserEditDialogProps) {
     <Dialog open={!!user} onOpenChange={(open) => !open && onClose()}>
       <DialogContent className="sm:max-w-lg">
         <DialogHeader>
-          <DialogTitle>Edit User</DialogTitle>
+          <DialogTitle>Редактирай потребител</DialogTitle>
           <DialogDescription>
-            Update account details. Only changed fields will be sent.
+            Актуализирайте детайлите. Само променените полета ще бъдат
+            изпратени.
           </DialogDescription>
         </DialogHeader>
 
@@ -108,7 +109,7 @@ export function UserEditDialog({ user, onClose }: UserEditDialogProps) {
               name="username"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Username</FormLabel>
+                  <FormLabel>Потребителско име</FormLabel>
                   <FormControl>
                     <Input placeholder="johndoe" {...field} />
                   </FormControl>
@@ -121,7 +122,7 @@ export function UserEditDialog({ user, onClose }: UserEditDialogProps) {
               name="full_name"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Full Name</FormLabel>
+                  <FormLabel>Пълно име</FormLabel>
                   <FormControl>
                     <Input placeholder="John Doe" {...field} />
                   </FormControl>
@@ -134,7 +135,7 @@ export function UserEditDialog({ user, onClose }: UserEditDialogProps) {
               name="email"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Email</FormLabel>
+                  <FormLabel>Имейл</FormLabel>
                   <FormControl>
                     <Input placeholder="john@example.com" {...field} />
                   </FormControl>
@@ -147,11 +148,11 @@ export function UserEditDialog({ user, onClose }: UserEditDialogProps) {
               name="password"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>New Password</FormLabel>
+                  <FormLabel>Нова парола</FormLabel>
                   <FormControl>
                     <Input
                       type="password"
-                      placeholder="Leave blank to keep current"
+                      placeholder="Оставете празно, за да запазите текущата"
                       {...field}
                     />
                   </FormControl>
@@ -164,7 +165,7 @@ export function UserEditDialog({ user, onClose }: UserEditDialogProps) {
               name="is_active"
               render={({ field }) => (
                 <FormItem className="flex items-center justify-between rounded-lg border p-3">
-                  <FormLabel className="cursor-pointer">Active</FormLabel>
+                  <FormLabel className="cursor-pointer">Активен</FormLabel>
                   <FormControl>
                     <Switch
                       checked={field.value}
@@ -181,7 +182,7 @@ export function UserEditDialog({ user, onClose }: UserEditDialogProps) {
                 onClick={onClose}
                 className="cursor-pointer"
               >
-                Cancel
+                Отказ
               </Button>
               <Button
                 type="submit"
@@ -189,7 +190,7 @@ export function UserEditDialog({ user, onClose }: UserEditDialogProps) {
                 className="cursor-pointer"
               >
                 {isPending && <Loader2 className="mr-2 size-4 animate-spin" />}
-                Save Changes
+                Запази промените
               </Button>
             </DialogFooter>
           </form>

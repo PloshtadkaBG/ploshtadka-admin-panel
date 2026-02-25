@@ -104,7 +104,7 @@ export function DataTable({
             onCheckedChange={(value) =>
               table.toggleAllPageRowsSelected(!!value)
             }
-            aria-label="Select all"
+            aria-label="Избери всички"
           />
         </div>
       ),
@@ -113,7 +113,7 @@ export function DataTable({
           <Checkbox
             checked={row.getIsSelected()}
             onCheckedChange={(value) => row.toggleSelected(!!value)}
-            aria-label="Select row"
+            aria-label="Избери ред"
           />
         </div>
       ),
@@ -123,7 +123,7 @@ export function DataTable({
     },
     {
       accessorKey: "username",
-      header: "User",
+      header: "Потребител",
       cell: ({ row }) => {
         const user = row.original;
         return (
@@ -152,7 +152,7 @@ export function DataTable({
     },
     {
       accessorKey: "is_active",
-      header: "Status",
+      header: "Статус",
       cell: ({ row }) => {
         const active = row.getValue("is_active") as boolean;
         return (
@@ -164,7 +164,7 @@ export function DataTable({
                 : "text-gray-600 bg-gray-50 dark:text-gray-400 dark:bg-gray-900/20"
             }
           >
-            {active ? "Active" : "Inactive"}
+            {active ? "Активен" : "Неактивен"}
           </Badge>
         );
       },
@@ -176,12 +176,12 @@ export function DataTable({
     },
     {
       accessorKey: "scopes",
-      header: "Scopes",
+      header: "Права",
       cell: ({ row }) => {
         const scopes = row.getValue("scopes") as string[];
         const list = Array.isArray(scopes) ? (scopes as string[]) : [];
         if (list.length === 0)
-          return <span className="text-muted-foreground text-sm">None</span>;
+          return <span className="text-muted-foreground text-sm">Няма</span>;
         return (
           <div className="flex flex-wrap gap-1 max-w-xs">
             {list.slice(0, 3).map((s) => (
@@ -200,7 +200,7 @@ export function DataTable({
     },
     {
       accessorKey: "created_at",
-      header: "Joined",
+      header: "Регистриран",
       cell: ({ row }) => {
         const date = row.getValue("created_at") as string;
         return (
@@ -212,7 +212,7 @@ export function DataTable({
     },
     {
       id: "actions",
-      header: "Actions",
+      header: "Действия",
       cell: ({ row }) => {
         const user = row.original;
         return (
@@ -221,11 +221,11 @@ export function DataTable({
               variant="ghost"
               size="icon"
               className="h-8 w-8 cursor-pointer"
-              title="Manage Scopes"
+              title="Управление на права"
               onClick={() => setScopeUser(user)}
             >
               <ShieldCheck className="size-4" />
-              <span className="sr-only">Manage scopes</span>
+              <span className="sr-only">Управление на права</span>
             </Button>
             <Button
               variant="ghost"
@@ -234,7 +234,7 @@ export function DataTable({
               onClick={() => setDetailsUser(user)}
             >
               <Eye className="size-4" />
-              <span className="sr-only">View details</span>
+              <span className="sr-only">Детайли</span>
             </Button>
             <Button
               variant="ghost"
@@ -243,7 +243,7 @@ export function DataTable({
               onClick={() => setEditUser(user)}
             >
               <Pencil className="size-4" />
-              <span className="sr-only">Edit user</span>
+              <span className="sr-only">Редактирай</span>
             </Button>
             <DropdownMenu>
               <DropdownMenuTrigger asChild>
@@ -253,7 +253,7 @@ export function DataTable({
                   className="h-8 w-8 cursor-pointer"
                 >
                   <EllipsisVertical className="size-4" />
-                  <span className="sr-only">More actions</span>
+                  <span className="sr-only">Още действия</span>
                 </Button>
               </DropdownMenuTrigger>
               <DropdownMenuContent align="end">
@@ -262,7 +262,7 @@ export function DataTable({
                   onClick={() => setScopeUser(user)}
                 >
                   <ShieldCheck className="mr-2 size-4" />
-                  Manage Scopes
+                  Управление на права
                 </DropdownMenuItem>
                 <DropdownMenuSeparator />
                 <DropdownMenuItem
@@ -271,7 +271,7 @@ export function DataTable({
                   onClick={() => onDeleteUser(user.id)}
                 >
                   <Trash2 className="mr-2 size-4" />
-                  Delete User
+                  Изтрий потребител
                 </DropdownMenuItem>
               </DropdownMenuContent>
             </DropdownMenu>
@@ -325,7 +325,7 @@ export function DataTable({
           <div className="relative flex-1 max-w-sm">
             <Search className="absolute left-3 top-1/2 size-4 -translate-y-1/2 text-muted-foreground" />
             <Input
-              placeholder="Search users..."
+              placeholder="Търсене на потребители..."
               value={globalFilter ?? ""}
               onChange={(e) => setGlobalFilter(String(e.target.value))}
               className="pl-9"
@@ -335,7 +335,7 @@ export function DataTable({
         <div className="flex items-center space-x-2">
           <Button variant="outline" className="cursor-pointer">
             <Download className="mr-2 size-4" />
-            Export
+            Експорт
           </Button>
           <UserFormDialog onAddUser={onAddUser} />
         </div>
@@ -344,7 +344,7 @@ export function DataTable({
       {/* Filters */}
       <div className="grid gap-2 sm:grid-cols-3 sm:gap-4">
         <div className="space-y-2">
-          <Label className="text-sm font-medium">Status</Label>
+          <Label className="text-sm font-medium">Статус</Label>
           <Select
             value={statusFilter || ""}
             onValueChange={(value) =>
@@ -354,22 +354,22 @@ export function DataTable({
             }
           >
             <SelectTrigger className="cursor-pointer w-full">
-              <SelectValue placeholder="All Status" />
+              <SelectValue placeholder="Всички статуси" />
             </SelectTrigger>
             <SelectContent>
-              <SelectItem value="all">All Status</SelectItem>
-              <SelectItem value="active">Active</SelectItem>
-              <SelectItem value="inactive">Inactive</SelectItem>
+              <SelectItem value="all">Всички статуси</SelectItem>
+              <SelectItem value="active">Активен</SelectItem>
+              <SelectItem value="inactive">Неактивен</SelectItem>
             </SelectContent>
           </Select>
         </div>
 
         <div className="space-y-2 sm:col-start-3">
-          <Label className="text-sm font-medium">Column Visibility</Label>
+          <Label className="text-sm font-medium">Видимост на колони</Label>
           <DropdownMenu>
             <DropdownMenuTrigger asChild>
               <Button variant="outline" className="cursor-pointer w-full">
-                Columns <ChevronDown className="ml-2 size-4" />
+                Колони <ChevronDown className="ml-2 size-4" />
               </Button>
             </DropdownMenuTrigger>
             <DropdownMenuContent align="end">
@@ -442,7 +442,7 @@ export function DataTable({
                   colSpan={columns.length}
                   className="h-24 text-center"
                 >
-                  No results.
+                  Няма резултати.
                 </TableCell>
               </TableRow>
             )}
@@ -453,7 +453,7 @@ export function DataTable({
       {/* Pagination */}
       <div className="flex items-center justify-between space-x-2 py-4">
         <div className="flex items-center space-x-2">
-          <Label className="text-sm font-medium">Show</Label>
+          <Label className="text-sm font-medium">Покажи</Label>
           <Select
             value={`${table.getState().pagination.pageSize}`}
             onValueChange={(value) => table.setPageSize(Number(value))}
@@ -471,14 +471,14 @@ export function DataTable({
           </Select>
         </div>
         <div className="flex-1 text-sm text-muted-foreground hidden sm:block">
-          {table.getFilteredSelectedRowModel().rows.length} of{" "}
-          {table.getFilteredRowModel().rows.length} row(s) selected.
+          {table.getFilteredSelectedRowModel().rows.length} от{" "}
+          {table.getFilteredRowModel().rows.length} избран(и) ред(ове).
         </div>
         <div className="flex items-center space-x-2">
           <p className="text-sm font-medium hidden sm:block">
-            Page{" "}
+            Страница{" "}
             <strong>
-              {table.getState().pagination.pageIndex + 1} of{" "}
+              {table.getState().pagination.pageIndex + 1} от{" "}
               {table.getPageCount()}
             </strong>
           </p>
@@ -489,7 +489,7 @@ export function DataTable({
             disabled={!table.getCanPreviousPage()}
             className="cursor-pointer"
           >
-            Previous
+            Предишна
           </Button>
           <Button
             variant="outline"
@@ -498,7 +498,7 @@ export function DataTable({
             disabled={!table.getCanNextPage()}
             className="cursor-pointer"
           >
-            Next
+            Следваща
           </Button>
         </div>
       </div>

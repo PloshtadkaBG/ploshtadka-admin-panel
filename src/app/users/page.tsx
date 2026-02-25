@@ -13,8 +13,8 @@ export default function UsersPage() {
 
   return (
     <BaseLayout
-      title="Users"
-      description="Manage your users and their permissions"
+      title="Потребители"
+      description="Управлявайте потребителите и техните права"
     >
       <div className="flex flex-col gap-4">
         <div className="@container/main px-4 lg:px-6">

@@ -18,20 +18,20 @@ export function StatCards({ users, loading }: StatCardsProps) {
 
   const metrics = [
     {
-      title: "Total Users",
+      title: "Общо потребители",
       value: loading ? "…" : total,
       icon: Users,
       badge: null,
     },
     {
-      title: "Active Users",
+      title: "Активни потребители",
       value: loading ? "…" : active,
       icon: UserCheck,
       badge: total > 0 ? `${Math.round((active / total) * 100)}%` : null,
       badgeGreen: true,
     },
     {
-      title: "Inactive Users",
+      title: "Неактивни потребители",
       value: loading ? "…" : inactive,
       icon: Clock5,
       badge: total > 0 ? `${Math.round((inactive / total) * 100)}%` : null,
