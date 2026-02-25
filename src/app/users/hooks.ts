@@ -11,8 +11,8 @@ export function useScopes() {
   return useQuery({ queryKey: ["scopes"], queryFn: fetchScopes });
 }
 
-const fetchUsers = () => api.get<User[]>("/users").then((r) => r.data);
-const fetchScopes = () => api.get<string[]>("/scopes").then((r) => r.data);
+const fetchUsers = () => api.get<User[]>("/users/").then((r) => r.data);
+const fetchScopes = () => api.get<string[]>("/scopes/").then((r) => r.data);
 
 export function useUser(id: string | null) {
   return useQuery({
@@ -26,7 +26,7 @@ export function useAddUser() {
   const qc = useQueryClient();
   return useMutation({
     mutationFn: (data: UserFormValues) =>
-      api.post<User>("/users", data).then((r) => r.data),
+      api.post<User>("/users/", data).then((r) => r.data),
     onSuccess: (newUser) => {
       qc.setQueryData<User[]>(["users"], (prev = []) => [newUser, ...prev]);
     },

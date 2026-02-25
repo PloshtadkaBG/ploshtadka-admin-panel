@@ -28,7 +28,7 @@ export function useVenues() {
 }
 
 const fetchVenues = () =>
-  api.get<VenueListItem[]>("/venues").then((r) => r.data);
+  api.get<VenueListItem[]>("/venues/").then((r) => r.data);
 
 export function useVenue(id: string | null) {
   return useQuery({
@@ -45,7 +45,7 @@ export function useAddVenue() {
   const qc = useQueryClient();
   return useMutation({
     mutationFn: (data: VenueFormValues) =>
-      api.post<Venue>("/venues", data).then((r) => r.data),
+      api.post<Venue>("/venues/", data).then((r) => r.data),
     onSuccess: (newVenue) => {
       qc.setQueryData<VenueListItem[]>(VENUES_KEY, (prev = []) => [
         {

@@ -23,35 +23,23 @@ RUN --mount=type=cache,target=/root/.bun/install/cache \
     bun run build
 
 # ---- production stage ----
-FROM nginx:1.27-alpine AS production
+FROM oven/bun:1-alpine AS production
+WORKDIR /app
 
-RUN rm -rf /usr/share/nginx/html/*
+COPY --from=builder /app/dist ./dist
 
-COPY --from=builder /app/dist /usr/share/nginx/html
+COPY <<'SERVE' serve.ts
+Bun.serve({
+  port: 3000,
+  async fetch(req) {
+    const url = new URL(req.url);
+    const file = Bun.file(`dist${url.pathname}`);
+    if (await file.exists()) return new Response(file);
+    return new Response(Bun.file("dist/index.html"));
+  },
+});
+SERVE
 
-COPY <<'EOF' /etc/nginx/conf.d/default.conf
-server {
-    listen 80;
-    server_name _;
-    root /usr/share/nginx/html;
-    index index.html;
+EXPOSE 3000
 
-    gzip on;
-    gzip_vary on;
-    gzip_types text/plain text/css application/json application/javascript text/xml application/xml image/svg+xml;
-
-    location ~* \.(js|css|png|jpg|jpeg|gif|ico|svg|woff2|woff|ttf)$ {
-        expires 1y;
-        add_header Cache-Control "public, immutable";
-        access_log off;
-    }
-
-    location / {
-        try_files $uri $uri/ /index.html;
-    }
-}
-EOF
-
-EXPOSE 80
-
-CMD ["nginx", "-g", "daemon off;"]
+CMD ["bun", "serve.ts"]
