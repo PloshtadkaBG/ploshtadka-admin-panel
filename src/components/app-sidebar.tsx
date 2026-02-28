@@ -1,27 +1,9 @@
 "use client";
 
 import * as React from "react";
-import {
-  LayoutPanelLeft,
-  LayoutDashboard,
-  Mail,
-  CheckSquare,
-  MessageCircle,
-  Calendar,
-  Shield,
-  AlertTriangle,
-  Settings,
-  HelpCircle,
-  CreditCard,
-  LayoutTemplate,
-  Users,
-  RectangleCircle,
-  CalendarCheck,
-} from "lucide-react";
+import { LayoutDashboard, Users, Building2, CalendarCheck } from "lucide-react";
 import { Link } from "react-router-dom";
 import { Logo } from "@/components/logo";
-import { SidebarNotification } from "@/components/sidebar-notification";
-
 import { NavMain } from "@/components/nav-main";
 import { NavUser } from "@/components/nav-user";
 import { useMe } from "@/app/auth/api/hooks";
@@ -36,149 +18,39 @@ import {
   SidebarMenuItem,
 } from "@/components/ui/sidebar";
 
-const data = {
-  user: {
-    name: "Ploshtadka.BG",
-    email: "store@example.com",
-    avatar: "",
+const navGroups = [
+  {
+    label: "Табла",
+    items: [
+      {
+        title: "Табло",
+        url: "/dashboard",
+        icon: LayoutDashboard,
+      },
+    ],
   },
-  navGroups: [
-    {
-      label: "Табла",
-      items: [
-        {
-          title: "Табло",
-          url: "/dashboard",
-          icon: LayoutDashboard,
-        },
-        // {
-        //   title: "Dashboard 2",
-        //   url: "/dashboard-2",
-        //   icon: LayoutPanelLeft,
-        // },
-      ],
-    },
-    {
-      label: "Приложения",
-      items: [
-        {
-          title: "Потребители",
-          url: "/users",
-          icon: Users,
-          adminOnly: true,
-        },
-        {
-          title: "Обекти",
-          url: "/venues",
-          icon: RectangleCircle,
-        },
-        {
-          title: "Резервации",
-          url: "/bookings",
-          icon: CalendarCheck,
-        },
-      ],
-    },
-    {
-      label: "Страници",
-      items: [
-        {
-          title: "Начална страница",
-          url: "/landing",
-          target: "_blank",
-          icon: LayoutTemplate,
-        },
-        {
-          title: "Автентикация",
-          url: "#",
-          icon: Shield,
-          items: [
-            {
-              title: "Вход",
-              url: "/auth/sign-in",
-            },
-            {
-              title: "Регистрация",
-              url: "/auth/sign-up",
-            },
-            {
-              title: "Забравена парола",
-              url: "/auth/forgot-password",
-            },
-          ],
-        },
-        {
-          title: "Грешки",
-          url: "#",
-          icon: AlertTriangle,
-          items: [
-            {
-              title: "Неоторизиран",
-              url: "/errors/unauthorized",
-            },
-            {
-              title: "Забранен достъп",
-              url: "/errors/forbidden",
-            },
-            {
-              title: "Не е намерено",
-              url: "/errors/not-found",
-            },
-            {
-              title: "Вътрешна сървърна грешка",
-              url: "/errors/internal-server-error",
-            },
-            {
-              title: "В поддръжка",
-              url: "/errors/under-maintenance",
-            },
-          ],
-        },
-        // {
-        //   title: "Settings",
-        //   url: "#",
-        //   icon: Settings,
-        //   items: [
-        //     {
-        //       title: "User Settings",
-        //       url: "/settings/user",
-        //     },
-        //     {
-        //       title: "Account Settings",
-        //       url: "/settings/account",
-        //     },
-        //     {
-        //       title: "Plans & Billing",
-        //       url: "/settings/billing",
-        //     },
-        //     {
-        //       title: "Appearance",
-        //       url: "/settings/appearance",
-        //     },
-        //     {
-        //       title: "Notifications",
-        //       url: "/settings/notifications",
-        //     },
-        //     {
-        //       title: "Connections",
-        //       url: "/settings/connections",
-        //     },
-        //   ],
-        // },
-        // {
-        //   title: "FAQs",
-        //   url: "/faqs",
-        //   icon: HelpCircle,
-        // },
-        // {
-        //   title: "Pricing",
-        //   url: "/pricing",
-        //   icon: CreditCard,
-        // },
-      ],
-    },
-  ],
-};
+  {
+    label: "Управление",
+    items: [
+      {
+        title: "Потребители",
+        url: "/users",
+        icon: Users,
+        adminOnly: true,
+      },
+      {
+        title: "Обекти",
+        url: "/venues",
+        icon: Building2,
+      },
+      {
+        title: "Резервации",
+        url: "/bookings",
+        icon: CalendarCheck,
+      },
+    ],
+  },
+];
 
 export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
   const { data: me } = useMe();
@@ -195,8 +67,8 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
                   <Logo size={24} className="text-current" />
                 </div>
                 <div className="grid flex-1 text-left text-sm leading-tight">
-                  <span className="truncate font-medium">Ploshtadka.BG</span>
-                  <span className="truncate text-xs">
+                  <span className="truncate font-semibold">Ploshtadka.BG</span>
+                  <span className="truncate text-xs text-muted-foreground">
                     Административен панел
                   </span>
                 </div>
@@ -206,7 +78,7 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
         </SidebarMenu>
       </SidebarHeader>
       <SidebarContent>
-        {data.navGroups.map((group) => {
+        {navGroups.map((group) => {
           const items = admin
             ? group.items
             : group.items.filter((item) => !item.adminOnly);
@@ -216,7 +88,7 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
         })}
       </SidebarContent>
       <SidebarFooter>
-        <NavUser user={data.user} />
+        <NavUser />
       </SidebarFooter>
     </Sidebar>
   );
