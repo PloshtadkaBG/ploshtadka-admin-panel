@@ -562,7 +562,7 @@ export function VenueFormDialog() {
                         <FormItem>
                           <FormLabel>Валута</FormLabel>
                           <FormControl>
-                            <Input placeholder="BGN" maxLength={3} {...field} />
+                            <Input placeholder="EUR" maxLength={3} {...field} />
                           </FormControl>
                           <FormMessage />
                         </FormItem>

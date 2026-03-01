@@ -95,7 +95,7 @@ export function StatCards({
         },
         {
           title: "Приходи",
-          value: loading ? "…" : `${revenue.toFixed(2)} лв.`,
+          value: loading ? "…" : `${revenue.toFixed(2)} EUR`,
           icon: DollarSign,
           badge: completedBookings > 0
             ? `${completedBookings} завършени`
