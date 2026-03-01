@@ -1,29 +1,52 @@
-import { BaseLayout } from "@/components/layouts/base-layout";
-import { ChartAreaInteractive } from "./components/chart-area-interactive";
-import { DataTable } from "./components/data-table";
-import { SectionCards } from "./components/section-cards";
+"use client";
 
-import data from "./data/data.json";
-import pastPerformanceData from "./data/past-performance-data.json";
-import keyPersonnelData from "./data/key-personnel-data.json";
-import focusDocumentsData from "./data/focus-documents-data.json";
+import { BaseLayout } from "@/components/layouts/base-layout";
+import { StatCards } from "./components/stat-cards";
+import { BookingsTrendChart } from "./components/bookings-trend-chart";
+import { RecentBookingsTable } from "./components/recent-bookings-table";
+import { useMe } from "@/app/auth/api/hooks";
+import { useVenues } from "@/app/venues/hooks";
+import { useBookings } from "@/app/bookings/hooks";
+import { useUsers } from "@/app/auth/api/hooks";
+import { isAdmin, isVenueOwner } from "@/lib/scopes";
 
 export default function Page() {
+  const { data: me } = useMe();
+  const admin = me ? isAdmin(me.scopes) : false;
+  const owner = me ? isVenueOwner(me.scopes) : false;
+
+  const venueParams =
+    owner && me ? { owner_id: String(me.id) } : undefined;
+  const { data: venues = [], isLoading: venuesLoading } =
+    useVenues(venueParams);
+  const { data: bookings = [], isLoading: bookingsLoading } = useBookings();
+  const { data: users = [], isLoading: usersLoading } = useUsers(admin);
+
+  const loading = venuesLoading || bookingsLoading;
+
   return (
     <BaseLayout
       title="Табло"
-      description="Добре дошли в административния панел"
+      description={
+        admin
+          ? "Преглед на платформата"
+          : "Преглед на вашия бизнес"
+      }
     >
-      <div className="@container/main px-4 lg:px-6 space-y-6">
-        <SectionCards />
-        <ChartAreaInteractive />
-      </div>
-      <div className="@container/main">
-        <DataTable
-          data={data}
-          pastPerformanceData={pastPerformanceData}
-          keyPersonnelData={keyPersonnelData}
-          focusDocumentsData={focusDocumentsData}
+      <div className="space-y-6 px-4 lg:px-6">
+        <StatCards
+          venues={venues}
+          bookings={bookings}
+          userCount={users.length}
+          loading={loading}
+          usersLoading={usersLoading}
+          isAdmin={admin}
+        />
+        <BookingsTrendChart bookings={bookings} loading={bookingsLoading} />
+        <RecentBookingsTable
+          bookings={bookings}
+          loading={bookingsLoading}
+          isAdmin={admin}
         />
       </div>
     </BaseLayout>

@@ -32,13 +32,14 @@ export const useLogout = () => {
 };
 
 // --- USERS ---
-export const useUsers = () => {
+export const useUsers = (enabled = true) => {
   return useQuery({
     queryKey: ["users"],
     queryFn: async () => {
       const { data } = await apiClient.get<UserRead[]>("/users/");
       return data;
     },
+    enabled,
   });
 };
 
